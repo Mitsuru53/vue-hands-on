@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import firebase from 'firebase/app'
 
 Vue.use(Vuex)
 
@@ -9,13 +10,17 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_POST (state, post) {
-      console.log('mutations', 'posts')
       state.posts.push(post)
     }
   },
   actions: {
-    setPost ({commit}, post) {
-      commit('SET_POST', post)
+    async setPost ({commit}, post) {
+      try {
+        await firebase.firestore().collection('posts').add(post)
+        commit('SET_POST', post)
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
   getters: {

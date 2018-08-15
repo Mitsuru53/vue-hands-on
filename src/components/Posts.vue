@@ -17,6 +17,7 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+import firebase from 'firebase'
 
 export default {
   name: 'Posts',
@@ -30,9 +31,16 @@ export default {
     ...mapGetters(['posts'])
   },
   methods: {
-    submitPost () {
-      const post = {title: this.title, contents: this.contents}
-      this.setPost(post)
+    async submitPost () {
+      const post = {
+        title: this.title,
+        contents: this.contents,
+        user_id: firebase.auth().currentUser.uid
+      }
+      await this.setPost(post)
+      this.resetForm()
+    },
+    resetForm () {
       this.title = ''
       this.contents = ''
     },

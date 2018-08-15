@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import store from './store'
 
 Vue.use(BootstrapVue)
