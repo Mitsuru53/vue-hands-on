@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import firebase from 'firebase'
+import store from './store'
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
@@ -24,6 +25,7 @@ firebase.initializeApp(config)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
