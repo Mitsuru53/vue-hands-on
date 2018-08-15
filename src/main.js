@@ -21,6 +21,14 @@ const config = {
 
 firebase.initializeApp(config)
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth) && !firebase.auth().currentUser) {
+    next({path: '/'})
+  } else {
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

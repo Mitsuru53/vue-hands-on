@@ -6,11 +6,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    posts: []
+    posts: [],
+    user: ''
   },
   mutations: {
     SET_POST (state, post) {
       state.posts.push(post)
+    },
+    SET_USER (state, user) {
+      state.user = user
+    },
+    REMOVE_USER (state) {
+      state.user = ''
     }
   },
   actions: {
@@ -21,11 +28,36 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err)
       }
+    },
+    async loginWithPassword ({commit}, user) {
+      try {
+        commit('SET_USER', await firebase.auth().signInWithEmailAndPassword(user.email, user.password))
+      } catch (error) {
+        console.log('login error', error)
+      }
+    },
+    async registerWithPassword ({commit}, user) {
+      try {
+        commit('SET_USER', await firebase.auth().createUserWithEmailAndPassword(user.email, user.password))
+      } catch (error) {
+        console.log('register error', error)
+      }
+    },
+    async logoutFirebase ({commit}) {
+      try {
+        await firebase.auth().signOut()
+        commit('REMOVE_USER')
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
   getters: {
     posts (state) {
       return state.posts
+    },
+    currentUser (state) {
+      return state.user.user
     }
   }
 })

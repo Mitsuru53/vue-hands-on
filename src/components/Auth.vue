@@ -6,9 +6,9 @@
     </div>
     <template v-if="isLogin">
       <form @submit.prevent="login" class="form-group">
-        <input type="email" v-model="email" class="form-control"/> email: {{ email }}
+        <input type="email" v-model="email" class="form-control"/>
         <br>
-        <input type="password" v-model="password" class="form-control"/> password: {{ password }}
+        <input type="password" v-model="password" class="form-control"/>
         <br>
         <input type="submit" value="Login" class="btn btn-primary"/>
       </form>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
+import {mapActions, mapGetters} from 'vuex'
 export default {
   name: 'Auth',
   data () {
@@ -36,22 +36,19 @@ export default {
       isLogin: true
     }
   },
+  computed: {
+    ...mapGetters(['currentUser'])
+  },
   methods: {
-    async login () {
-      try {
-        const user = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        console.log('user', user)
-      } catch (error) {
-        console.log('login error', error)
-      }
+    ...mapActions([
+      'loginWithPassword',
+      'registerWithPassword'
+    ]),
+    login () {
+      this.loginWithPassword({email: this.email, password: this.password})
     },
-    async register () {
-      try {
-        const user = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        console.log('user', user)
-      } catch (error) {
-        console.log('register error', error)
-      }
+    register () {
+      this.registerWithPassword({email: this.email, password: this.password})
     }
   }
 }
