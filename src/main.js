@@ -4,9 +4,21 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
+import firebase from 'firebase'
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
+
+const config = {
+  apiKey: 'AIzaSyCW06_JTd45vTi_yTAMFzDXF-dBECcwegE',
+  authDomain: 'boot-vue.firebaseapp.com',
+  databaseURL: 'https://boot-vue.firebaseio.com',
+  projectId: 'boot-vue',
+  storageBucket: 'boot-vue.appspot.com',
+  messagingSenderId: '858055789153'
+}
+
+firebase.initializeApp(config)
 
 /* eslint-disable no-new */
 new Vue({
