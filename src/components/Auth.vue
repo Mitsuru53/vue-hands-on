@@ -44,11 +44,15 @@ export default {
       'loginWithPassword',
       'registerWithPassword'
     ]),
-    login () {
-      this.loginWithPassword({email: this.email, password: this.password})
+    async login () {
+      await this.loginWithPassword({email: this.email, password: this.password})
+      await this.$swal('logged in')
+      await this.$router.push('/posts')
     },
-    register () {
-      this.registerWithPassword({email: this.email, password: this.password})
+    async register () {
+      await this.registerWithPassword({email: this.email, password: this.password})
+      await this.$swal('sign up')
+      await this.$router.push('/posts')
     }
   }
 }

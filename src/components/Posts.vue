@@ -38,7 +38,8 @@ export default {
         user_id: firebase.auth().currentUser.uid
       }
       await this.setPost(post)
-      this.resetForm()
+      await this.$swal('success')
+      await this.resetForm()
     },
     resetForm () {
       this.title = ''

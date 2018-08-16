@@ -6,20 +6,27 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import firebase from 'firebase/app'
 import store from './store'
-
+import VueSwal from 'vue-swal'
+require('dotenv').config()
+Vue.use(VueSwal)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 const config = {
-  apiKey: 'AIzaSyCW06_JTd45vTi_yTAMFzDXF-dBECcwegE',
-  authDomain: 'boot-vue.firebaseapp.com',
-  databaseURL: 'https://boot-vue.firebaseio.com',
-  projectId: 'boot-vue',
-  storageBucket: 'boot-vue.appspot.com',
-  messagingSenderId: '858055789153'
+  apiKey: JSON.stringify(process.env.apiKey),
+  authDomain: JSON.stringify(process.env.authDomain),
+  databaseURL: JSON.stringify(process.env.databaseURL),
+  projectId: JSON.stringify(process.env.projectId),
+  storageBucket: JSON.stringify(process.env.storageBucket),
+  messagingSenderId: JSON.stringify(process.env.messagingSenderId)
 }
+console.log('process', process.env)
 
 firebase.initializeApp(config)
+
+const firestore = firebase.firestore()
+const settings = {timestampsInSnapshots: true}
+firestore.settings(settings)
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth) && !firebase.auth().currentUser) {
